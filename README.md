@@ -1,0 +1,1 @@
+A project started to learn about Angular's modules, controllers, views, services, routing, directives and MVC model.
