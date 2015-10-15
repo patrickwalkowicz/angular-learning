@@ -1,10 +1,20 @@
 (function() {
-    // Define controller function
-    var CustomersController = function($scope) {
-        // Defaults
-        $scope.sortBy = 'name';
-        $scope.reverse = false;
-
+    // Define controller function           // Inject route params
+    var OrdersController = function($scope, $routeParams) {
+        // reference customerId from app.js route config
+        var customerId = $routeParams.customerId;
+        
+        $scope.orders = null;
+        function init() {
+            // Scan customers for customer ID
+            for (var i = 0; i < $scope.customers.length; i++) {
+                if ($scope.customers[i].id === parseInt(customerId)) {
+                    $scope.orders = $scope.customers[i].orders;
+                    break;
+                }
+            }
+        }
+        
         $scope.customers=[
             {   
                 id: 1,
@@ -64,16 +74,15 @@
             }
         ];
         
-        $scope.doSort = function(propName) {
-        $scope.sortBy=propName;
-        $scope.reverse = !$scope.reverse;
-        }
+    init();
+        
     }
+    
     // Inject '$scope' to prevent minifiers from breaking the code
-    CustomersController.$inject = ['$scope'];
+    OrdersController.$inject = ['$scope', '$routeParams'];
     
     // Inject the function as module's controller
     angular.module('customersApp')          
-        .controller('CustomersController', CustomersController);
+        .controller('OrdersController', OrdersController);
     
 }());
